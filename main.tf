@@ -14,6 +14,8 @@ provider "aws" {
 module "bastion" {
   source = "./bastion"
 
+
+
   # vpc_id      =  module.aws_vpc.main.id
 }
 
@@ -27,4 +29,12 @@ module "iam" {
 module "dynamodb" {
   source = "./dynamodb"
 
+}
+module "efs" {
+  source = "./efs"
+  
+}
+module "rds" {
+  source = "./rds"
+  
 }

@@ -10,7 +10,7 @@ resource "aws_instance" "web_server" {
 }
 resource "aws_security_group" "ssh_access" {
   name_prefix = "ssh_access"
-   vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.main.id
 
 
 
