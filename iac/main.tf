@@ -16,7 +16,7 @@ terraform {
 
 
 provider "aws" {
-  region = "eu-central-1"
+  region = "eu-west-3"
 }
 
 module "bastion" {
@@ -50,5 +50,6 @@ module "rds" {
 
   vpc_id               = module.vpc.vpc_id
   private_subnet-1a_id = module.vpc.private_subnet-1a_id
+  
   private_subnet-1b_id = module.vpc.private_subnet-1b_id
 }

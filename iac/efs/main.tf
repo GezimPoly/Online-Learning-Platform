@@ -4,7 +4,7 @@ resource "aws_efs_access_point" "test" {
 
 
 resource "aws_efs_file_system" "fs" {
-  creation_token = "my-product"
+  creation_token = "oln-product"
 
   tags = {
     Name = "MyProduct"

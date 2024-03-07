@@ -1,5 +1,5 @@
-variable "public_subnet-1a_id" {}
-variable "public_subnet-1b_id" {}
+# variable "public_subnet-1a_id" {}
+# variable "public_subnet-1b_id" {}
 
 
 data "aws_ami" "ubuntu" {

@@ -41,6 +41,7 @@ This Assignment should be organized in the following 4 phases:
 - Security Group for RDS instances to restrict access, allowing only specific ports.
 - NACLs with custom rules for different subnets.
 
+
 #### Autoscaling
 - Minimum 1 instances, scale up to 2  based on CPU and memory usage.
 

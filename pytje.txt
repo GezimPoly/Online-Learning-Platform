@@ -1,2 +1,0 @@
-per nacl ne cilen file me lon se me lon te pc spo di qysh me bo lidhjen me rds
-per rds postgeresql qysh me lon te engine version spo gjoj materal

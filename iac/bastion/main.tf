@@ -3,7 +3,7 @@ variable "public_subnet-1a_id" {}
 variable "public_subnet-1b_id" {}
 
 resource "aws_instance" "web_server" {
-  ami           = "ami-0f8ca728008ff5af4"
+  ami           = "ami-0dfdff9941ebfbd48"
   instance_type = "t2.micro"
   key_name      = "terraform-key"
   subnet_id     = var.public_subnet-1a_id

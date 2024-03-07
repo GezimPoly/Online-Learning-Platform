@@ -12,7 +12,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "public_subnet-1a" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.1.0/24"
-  availability_zone       = "eu-central-1a"
+  availability_zone       = "eu-west-3a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -22,7 +22,7 @@ resource "aws_subnet" "public_subnet-1a" {
 resource "aws_subnet" "public_subnet-1b" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.2.0/24"
-  availability_zone       = "eu-central-1b"
+  availability_zone       = "eu-west-3b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -32,7 +32,7 @@ resource "aws_subnet" "public_subnet-1b" {
 resource "aws_subnet" "private_subnet-1a" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.3.0/24"
-  availability_zone       = "eu-central-1a"
+  availability_zone       = "eu-west-3a"
   map_public_ip_on_launch = true
 
 
@@ -43,7 +43,7 @@ resource "aws_subnet" "private_subnet-1a" {
 resource "aws_subnet" "private_subnet-1b" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.4.0/24"
-  availability_zone       = "eu-central-1b"
+  availability_zone       = "eu-west-3b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -97,17 +97,17 @@ resource "aws_network_acl_rule" "nacl1a" {
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
-  cidr_block     = "10.3.0.0/18"
-  from_port      = 22
-  to_port        = 22
+  cidr_block     = "10.3.0.0/16"
+  from_port      = 5432
+  to_port        = 5432
 }
-# resource "aws_network_acl_rule" "nacl1b" {
-#   network_acl_id = aws_network_acl.bar.id
-#   rule_number    = 200
-#   egress         = false
-#   protocol       = "tcp"
-#   rule_action    = "allow"
-#   cidr_block     = "10.4.0.0/18"
-#   from_port      = 22
-#   to_port        = 22
-# }
+ resource "aws_network_acl_rule" "nacl1b" {
+   network_acl_id = aws_network_acl.bar.id
+   rule_number    = 201
+   egress         = false
+   protocol       = "tcp"
+   rule_action    = "allow"
+   cidr_block     = "10.4.0.0/24"
+   from_port      = 5432
+   to_port        = 5432
+ }

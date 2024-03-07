@@ -2,15 +2,15 @@ variable "vpc_id" {}
 variable "private_subnet-1a_id" {}
 variable "private_subnet-1b_id" {}
 
-resource "aws_db_instance" "default" {
+ resource "aws_db_instance" "default" {
   allocated_storage           = 10
-  db_name                     = "mydb"
-  engine                      = "mysql"
-  engine_version              = "5.7"
-  instance_class              = "db.t3.micro"
+  db_name                     = "postgresql"
+  engine                      = "postgresql"
+  engine_version              = "16.1-R2"
+  instance_class              = "db.m5d.large"
   manage_master_user_password = true
   username                    = "foo"
-  parameter_group_name        = "default.mysql5.7"
+  parameter_group_name        = "default.postgresql16"
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
@@ -28,10 +28,10 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
 resource "aws_rds_cluster" "postgresql" {
   cluster_identifier      = "aurora-cluster-demo"
   engine                  = "aurora-postgresql"
-  availability_zones      = ["eu-central-1a", "eu-central-1b"]
+  availability_zones      = ["eu-west-3a", "eu-west-3b"]
   database_name           = "mydb"
   master_username         = "foo"
-  master_password         = "bar"
+  master_password         = "barbarbar"
   //- RDS Postgresql with weekly backups, retaining for 4 weeks.
   backup_retention_period = 4*7
   preferred_backup_window = "07:00-09:00"
@@ -42,15 +42,18 @@ resource "aws_db_cluster_snapshot" "example" {
   db_cluster_snapshot_identifier = "resourcetestsnapshot1234"
 }
 
-# availability_zones = ["eu-central-1a", "eu-central-1b"]
+# availability_zones = ["eu-west-3a", "eu-west-3b"]
 resource "aws_db_subnet_group" "default" {
   name       = "main"
-  subnet_ids = [var.private_subnet-1a_id, var.private_subnet-1b_id]
+   subnet_ids = [var.private_subnet-1a_id, var.private_subnet-1b_id]
+  #  subnet_ids = [aws_subnet.frontend.id, aws_subnet.backend.id]
 
   tags = {
     Name = "My DB subnet group"
   }
 }
+
+
 
 # //nacl  network acl
 # //- NACLs with custom rules for different subnets.
