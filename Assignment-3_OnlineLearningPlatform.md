@@ -10,7 +10,8 @@ This Assignment should be organized in the following 4 phases:
 - *Document:*
   - Provide a `Readme.md` file explaining how to create the infrastructure and run the CI/CD pipeline.
   - Provide an infrastructure runbook in Markdown Format detailing operational procedures.
-- *Demo:* Prepare a small demo script on how you are going to explain your work. Provide a video recording showcasing the deployment and operation of the infrastructure.
+- *Demo:* Prepare a small demo script on how you are going to explain your work. 
+  Provide a video recording showcasing the deployment and operation of the infrastructure.
 
 **All assignment assests should be stored in github repository.**
 
@@ -24,12 +25,12 @@ This Assignment should be organized in the following 4 phases:
 
 // bastion host , rds clusster, aws aws pipiline
 ### AWS Resources
-- VPC
+-+ VPC
 - S3 (for course materials and videos)
-- EC2 (t2.micro for application servers)
-- RDS (Postgresql engine for student data)
-- DynamoDB (for course progress tracking)
-- EFS (for shared resources among students)
+- +EC2 (t2.micro for application servers)
+- +RDS (Postgresql engine for student data)
+- +DynamoDB (for course progress tracking)
+- +EFS (for shared resources among students)
 - CloudWatch
 - Autoscaling Group
 - Load Balancer (Application Load Balancer)

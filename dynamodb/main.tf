@@ -1,8 +1,8 @@
 // Define a resource of type 'aws_dynamodb_table'
 resource "aws_dynamodb_table" "oln-dynamodb" {
-  name           = "oln-dynamodb"    // Name of the table
-  read_capacity  = 20   // The maximum amount of read units
-  write_capacity = 20   // The maximum amount of write units
+  name           = "oln-dynamodb"    
+  read_capacity  = 20   
+  write_capacity = 20   
   hash_key       = "Id" // The attribute to use as the hash (partition) key
 
   // Define the attribute definitions

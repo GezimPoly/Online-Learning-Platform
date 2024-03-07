@@ -1,32 +1,39 @@
 
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
   tags = {
     Name = "main"
   }
 }
 
+
+
 resource "aws_subnet" "public_subnet-1a" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-central-1a"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "eu-central-1a"
+  map_public_ip_on_launch = true
+
   tags = {
     Name = "GPublic Subnet1a"
   }
 }
 resource "aws_subnet" "public_subnet-1b" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-central-1b"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "eu-central-1b"
+  map_public_ip_on_launch = true
+
   tags = {
     Name = "GPublic Subnet1b"
   }
 }
 resource "aws_subnet" "private_subnet-1a" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-central-1a"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "eu-central-1a"
+  map_public_ip_on_launch = true
 
 
   tags = {
@@ -34,9 +41,10 @@ resource "aws_subnet" "private_subnet-1a" {
   }
 }
 resource "aws_subnet" "private_subnet-1b" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-central-1b"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.4.0/24"
+  availability_zone       = "eu-central-1b"
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "GPrivate Subnet1b"
@@ -77,7 +85,29 @@ output "vpc_cidr" {
   value = aws_vpc.main.cidr_block
 }
 
-output "vpc_id" {
-  value = aws_vpc.main.id
-
+//nacl  network acl
+//- NACLs with custom rules for different subnets.
+resource "aws_network_acl" "bar" {
+  vpc_id = aws_vpc.main.id
 }
+
+resource "aws_network_acl_rule" "nacl1a" {
+  network_acl_id = aws_network_acl.bar.id
+  rule_number    = 200
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = "10.3.0.0/18"
+  from_port      = 22
+  to_port        = 22
+}
+# resource "aws_network_acl_rule" "nacl1b" {
+#   network_acl_id = aws_network_acl.bar.id
+#   rule_number    = 200
+#   egress         = false
+#   protocol       = "tcp"
+#   rule_action    = "allow"
+#   cidr_block     = "10.4.0.0/18"
+#   from_port      = 22
+#   to_port        = 22
+# }

@@ -1,11 +1,19 @@
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "~> 4.0"
+#     }
+#   }
+# }
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
+  backend "s3" {
+    bucket = "oln-bucket"
+    key    = "terraform.tfstate"
+    region = "eu-central-1"
   }
 }
+
 
 provider "aws" {
   region = "eu-central-1"
@@ -14,17 +22,20 @@ provider "aws" {
 module "bastion" {
   source = "./bastion"
 
-
-
-  # vpc_id      =  module.aws_vpc.main.id
+  vpc_id               = module.vpc.vpc_id
+  public_subnet-1a_id = module.vpc.public_subnet-1a_id
+  public_subnet-1b_id = module.vpc.public_subnet-1b_id
 }
-
 module "vpc" {
   source = "./vpc"
-
+  
 }
 module "iam" {
   source = "./iam"
+}
+
+module "s3" {
+  source = "./s3"
 }
 module "dynamodb" {
   source = "./dynamodb"
@@ -32,9 +43,12 @@ module "dynamodb" {
 }
 module "efs" {
   source = "./efs"
-  
+
 }
 module "rds" {
-  source = "./rds"
-  
+  source               = "./rds"
+
+  vpc_id               = module.vpc.vpc_id
+  private_subnet-1a_id = module.vpc.private_subnet-1a_id
+  private_subnet-1b_id = module.vpc.private_subnet-1b_id
 }

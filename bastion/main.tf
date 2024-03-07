@@ -1,17 +1,21 @@
+variable "vpc_id" {}
+variable "public_subnet-1a_id" {}
+variable "public_subnet-1b_id" {}
+
 resource "aws_instance" "web_server" {
   ami           = "ami-0f8ca728008ff5af4"
   instance_type = "t2.micro"
   key_name      = "terraform-key"
-  subnet_id     = aws_subnet.public_subnet-1a.id
+  subnet_id     = var.public_subnet-1a_id
 
   vpc_security_group_ids = [
     aws_security_group.ssh_access.id
   ]
 }
+
 resource "aws_security_group" "ssh_access" {
   name_prefix = "ssh_access"
-  vpc_id      = aws_vpc.main.id
-
+  vpc_id      = var.vpc_id
 
 
   ingress {
@@ -38,17 +42,15 @@ resource "aws_security_group" "ssh_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_eip" "eip" {
-  instance = aws_instance.web_server.id
 
-  tags = {
-    Name = "Gtest-eip"
-  }
-}
+
+
+
+
 resource "aws_security_group" "db_sg" {
   name        = "db_sg"
   description = "Security group for databases"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 
 
   ingress {
@@ -61,5 +63,13 @@ resource "aws_security_group" "db_sg" {
 
   tags = {
     Name = "db_sg"
+  }
+}
+
+resource "aws_eip" "eip" {
+  instance = aws_instance.web_server.id
+
+  tags = {
+    Name = "Gtest-eip"
   }
 }
