@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "example" {
-  bucket = "oln-bucket"
+  bucket = "oln-tfstate"
 
   tags = {
     Name        = "OLN bucket"

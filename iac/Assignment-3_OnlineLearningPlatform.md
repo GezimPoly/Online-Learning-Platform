@@ -10,8 +10,7 @@ This Assignment should be organized in the following 4 phases:
 - *Document:*
   - Provide a `Readme.md` file explaining how to create the infrastructure and run the CI/CD pipeline.
   - Provide an infrastructure runbook in Markdown Format detailing operational procedures.
-- *Demo:* Prepare a small demo script on how you are going to explain your work. 
-  Provide a video recording showcasing the deployment and operation of the infrastructure.
+- *Demo:* Prepare a small demo script on how you are going to explain your work. Provide a video recording showcasing the deployment and operation of the infrastructure.
 
 **All assignment assests should be stored in github repository.**
 
@@ -22,15 +21,13 @@ This Assignment should be organized in the following 4 phases:
 4. Construct Terraform code that follows the AWS Well-Architected Framework, focusing on scalability and security. Organize terraform resources in modules. 
 5. Create a Bastion server to access DB Server
 
-
-// bastion host , rds clusster, aws aws pipiline
 ### AWS Resources
--+ VPC
+- VPC
 - S3 (for course materials and videos)
-- +EC2 (t2.micro for application servers)
-- +RDS (Postgresql engine for student data)
-- +DynamoDB (for course progress tracking)
-- +EFS (for shared resources among students)
+- EC2 (t2.micro for application servers)
+- RDS (Postgresql engine for student data)
+- DynamoDB (for course progress tracking)
+- EFS (for shared resources among students)
 - CloudWatch
 - Autoscaling Group
 - Load Balancer (Application Load Balancer)
@@ -40,7 +37,6 @@ This Assignment should be organized in the following 4 phases:
 #### Security
 - Security Group for RDS instances to restrict access, allowing only specific ports.
 - NACLs with custom rules for different subnets.
-
 
 #### Autoscaling
 - Minimum 1 instances, scale up to 2  based on CPU and memory usage.

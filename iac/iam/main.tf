@@ -28,7 +28,7 @@ resource "aws_iam_instance_profile" "example_profile" {
 }
 
 resource "aws_instance" "example_instance" {
-  ami           = "ami-06ca3ca175f37dd66"
+  ami           = "ami-0dfdff9941ebfbd48"
   instance_type = "t2.micro"
   
   iam_instance_profile = aws_iam_instance_profile.example_profile.name
@@ -39,7 +39,7 @@ resource "aws_instance" "example_instance" {
 }
 
 resource "aws_s3_bucket_policy" "example_bucket_policy" {
-  bucket = "example-bucket"
+  bucket = "G-iam-policy"
 
   policy = jsonencode({
     "Version": "2012-10-17",

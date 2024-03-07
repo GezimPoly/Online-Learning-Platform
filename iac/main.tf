@@ -1,16 +1,16 @@
-# terraform {
-#   required_providers {
-#     aws = {
-#       source  = "hashicorp/aws"
-#       version = "~> 4.0"
-#     }
-#   }
-# }
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
 terraform {
   backend "s3" {
-    bucket = "oln-bucket"
+    bucket = "oln-tfstate"
     key    = "terraform.tfstate"
-    region = "eu-central-1"
+    region = "eu-west-3"
   }
 }
 
@@ -22,13 +22,14 @@ provider "aws" {
 module "bastion" {
   source = "./bastion"
 
-  vpc_id               = module.vpc.vpc_id
-  public_subnet-1a_id = module.vpc.public_subnet-1a_id
-  public_subnet-1b_id = module.vpc.public_subnet-1b_id
+  vpc_id                = module.vpc.vpc_id
+  public_subnet-1a_id   = module.vpc.public_subnet-1a_id
+  public_subnet-1b_id   = module.vpc.public_subnet-1b_id
+  aws_security_group_id = module.vpc.aws_security_group_id
 }
 module "vpc" {
   source = "./vpc"
-  
+
 }
 module "iam" {
   source = "./iam"
@@ -46,10 +47,15 @@ module "efs" {
 
 }
 module "rds" {
-  source               = "./rds"
+  source = "./rds"
 
   vpc_id               = module.vpc.vpc_id
   private_subnet-1a_id = module.vpc.private_subnet-1a_id
-  
   private_subnet-1b_id = module.vpc.private_subnet-1b_id
+}
+module "cloudwatch" {
+  source = "./cloudwatch"
+
+  public_subnet-1a_id = module.vpc.public_subnet-1a_id
+  public_subnet-1b_id = module.vpc.public_subnet-1b_id
 }

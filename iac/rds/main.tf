@@ -2,7 +2,7 @@ variable "vpc_id" {}
 variable "private_subnet-1a_id" {}
 variable "private_subnet-1b_id" {}
 
- resource "aws_db_instance" "default" {
+resource "aws_db_instance" "default" {
   allocated_storage           = 10
   db_name                     = "postgresql"
   engine                      = "postgresql"
@@ -11,30 +11,34 @@ variable "private_subnet-1b_id" {}
   manage_master_user_password = true
   username                    = "foo"
   parameter_group_name        = "default.postgresql16"
+  final_snapshot_identifier   = true
+  skip_final_snapshot         = true
 }
 
+
+resource "aws_rds_cluster" "postgresql" {
+  cluster_identifier = "aurora-cluster-demo"
+  engine             = "aurora-postgresql"
+  availability_zones = ["eu-west-3a", "eu-west-3b"]
+  database_name      = "mydb"
+  master_username    = "foo"
+  master_password    = "barbarbar"
+  //- RDS Postgresql with weekly backups, retaining for 4 weeks.
+  backup_retention_period   = 4 * 7
+  preferred_backup_window   = "07:00-09:00"
+  final_snapshot_identifier = true
+  skip_final_snapshot       = true
+}
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 2
   identifier         = "aurora-cluster-demo-${count.index}"
   cluster_identifier = aws_rds_cluster.postgresql.id
-  instance_class     = "db.t3.micro"
+  instance_class     = "db.m5d.large"
   engine             = aws_rds_cluster.postgresql.engine
   engine_version     = aws_rds_cluster.postgresql.engine_version
 
   //- Enable RDS performance insights.
   performance_insights_enabled = true
-}
-
-resource "aws_rds_cluster" "postgresql" {
-  cluster_identifier      = "aurora-cluster-demo"
-  engine                  = "aurora-postgresql"
-  availability_zones      = ["eu-west-3a", "eu-west-3b"]
-  database_name           = "mydb"
-  master_username         = "foo"
-  master_password         = "barbarbar"
-  //- RDS Postgresql with weekly backups, retaining for 4 weeks.
-  backup_retention_period = 4*7
-  preferred_backup_window = "07:00-09:00"
 }
 
 resource "aws_db_cluster_snapshot" "example" {
@@ -45,7 +49,7 @@ resource "aws_db_cluster_snapshot" "example" {
 # availability_zones = ["eu-west-3a", "eu-west-3b"]
 resource "aws_db_subnet_group" "default" {
   name       = "main"
-   subnet_ids = [var.private_subnet-1a_id, var.private_subnet-1b_id]
+  subnet_ids = [var.private_subnet-1a_id, var.private_subnet-1b_id]
   #  subnet_ids = [aws_subnet.frontend.id, aws_subnet.backend.id]
 
   tags = {

@@ -1,25 +1,13 @@
-# # Do not change version. This is the version of aws buildspec, not the version of your buldspec file.
-# version: 0.2
-
-# phases:
-#   install:
-#     runtime-versions:
-#       nodejs: 20
-#   pre_build:
-#     commands:
-#       - echo Installing source NPM dependencies...
-#   build:
-#     commands:
-#       - echo Build started on `date`
-#       - npm install
-#       - CI=true npm run test
-#       - npm run build  
-#       - npm install --global serve
-#       - serve -s build
-#   post_build:
-#     commands:
-#       - echo Build completed on `date`
-#       - echo Build stoped
-# artifacts:
-#   files:
-#     - 'build/*'
+ version: 0.2
+      phases:
+        build:
+          commands:
+            - sudo yum update -y
+            - sudo yum install -y unzip
+            - curl -O https://releases.hashicorp.com/terraform/0.15.4/terraform_0.15.4_linux_amd64.zip
+            - unzip terraform_0.15.4_linux_amd64.zip
+            - sudo mv terraform /usr/local/bin/
+            - terraform version
+            - terraform init
+            - terraform apply --auto-approve
+    EOF

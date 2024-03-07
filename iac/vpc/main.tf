@@ -1,4 +1,3 @@
-
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -6,8 +5,6 @@ resource "aws_vpc" "main" {
     Name = "main"
   }
 }
-
-
 
 resource "aws_subnet" "public_subnet-1a" {
   vpc_id                  = aws_vpc.main.id
@@ -81,10 +78,6 @@ resource "aws_route_table_association" "public" {
 }
 
 
-output "vpc_cidr" {
-  value = aws_vpc.main.cidr_block
-}
-
 //nacl  network acl
 //- NACLs with custom rules for different subnets.
 resource "aws_network_acl" "bar" {
@@ -97,17 +90,18 @@ resource "aws_network_acl_rule" "nacl1a" {
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
-  cidr_block     = "10.3.0.0/16"
+  cidr_block     = "10.3.0.0/24"
   from_port      = 5432
   to_port        = 5432
 }
- resource "aws_network_acl_rule" "nacl1b" {
-   network_acl_id = aws_network_acl.bar.id
-   rule_number    = 201
-   egress         = false
-   protocol       = "tcp"
-   rule_action    = "allow"
-   cidr_block     = "10.4.0.0/24"
-   from_port      = 5432
-   to_port        = 5432
- }
+resource "aws_network_acl_rule" "nacl1b" {
+  network_acl_id = aws_network_acl.bar.id
+  rule_number    = 201
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = "10.4.0.0/24"
+  from_port      = 5432
+  to_port        = 5432
+}
+
