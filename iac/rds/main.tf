@@ -6,7 +6,7 @@ variable "private_subnet-1b_id" {}
 #   allocated_storage           = 10
 #   db_name                     = "mydb"
 #   engine                      = "postgresql"
-#   engine_version              = "16.2-R1"
+#   engine_version              = "16.2"
 #   instance_class              = "db.m5d.large"
 #   manage_master_user_password = true
 #   username                    = "foo"
@@ -17,23 +17,23 @@ variable "private_subnet-1b_id" {}
 
 
 resource "aws_rds_cluster" "postgresql" {
-  cluster_identifier = "aurora-cluster-demo"
+  cluster_identifier = "aurora-cluster-oln"
   engine             = "aurora-postgresql"
-  engine_version       = "5.7"
+  engine_version     = "15"
   availability_zones = ["eu-west-3a", "eu-west-3b"]
   database_name      = "mydb"
   master_username    = "foo"
   master_password    = "barbarbar"
   //- RDS Postgresql with weekly backups, retaining for 4 weeks.
-  backup_retention_period   = 4 * 7
+  backup_retention_period   = 4*7
   preferred_backup_window   = "07:00-09:00"
-  final_snapshot_identifier = true
-  skip_final_snapshot       = true
+  final_snapshot_identifier = "aurora-final-snapshot"
+  skip_final_snapshot       = false
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 2
-  identifier         = "aurora-cluster-demo-${count.index}"
+  identifier         = "aurora-cluster-oln-${count.index}"
   cluster_identifier = aws_rds_cluster.postgresql.id
   instance_class     = "db.t3.medium"
   engine             = aws_rds_cluster.postgresql.engine
