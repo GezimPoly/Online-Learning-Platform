@@ -78,7 +78,7 @@ resource "aws_codestarconnections_connection" "example" {
 }
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "test-bucket"
+  bucket = "oln-cicd-pipeline"
 }
 
 resource "aws_s3_bucket_public_access_block" "codepipeline_bucket_pab" {
@@ -104,7 +104,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name               = "test-role"
+  name               = "oln-iamrole-cp"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 

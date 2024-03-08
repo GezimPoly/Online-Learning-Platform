@@ -2,23 +2,24 @@ variable "vpc_id" {}
 variable "private_subnet-1a_id" {}
 variable "private_subnet-1b_id" {}
 
-resource "aws_db_instance" "default" {
-  allocated_storage           = 10
-  db_name                     = "mydb"
-  engine                      = "postgresql"
-  engine_version              = "16.1-R2"
-  instance_class              = "db.m5d.large"
-  manage_master_user_password = true
-  username                    = "foo"
-  parameter_group_name        = "default.postgresql16"
-  final_snapshot_identifier   = true
-  skip_final_snapshot         = true
-}
+# resource "aws_db_instance" "default" {
+#   allocated_storage           = 10
+#   db_name                     = "mydb"
+#   engine                      = "postgresql"
+#   engine_version              = "16.2-R1"
+#   instance_class              = "db.m5d.large"
+#   manage_master_user_password = true
+#   username                    = "foo"
+#   parameter_group_name        = "default.postgresql16"
+#   final_snapshot_identifier   = true
+#   skip_final_snapshot         = true
+# }
 
 
 resource "aws_rds_cluster" "postgresql" {
   cluster_identifier = "aurora-cluster-demo"
   engine             = "aurora-postgresql"
+  engine_version       = "5.7"
   availability_zones = ["eu-west-3a", "eu-west-3b"]
   database_name      = "mydb"
   master_username    = "foo"
@@ -34,7 +35,7 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 2
   identifier         = "aurora-cluster-demo-${count.index}"
   cluster_identifier = aws_rds_cluster.postgresql.id
-  instance_class     = "db.m5d.large"
+  instance_class     = "db.t3.medium"
   engine             = aws_rds_cluster.postgresql.engine
   engine_version     = aws_rds_cluster.postgresql.engine_version
 

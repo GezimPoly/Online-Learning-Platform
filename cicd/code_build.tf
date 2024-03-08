@@ -1,11 +1,11 @@
 resource "aws_s3_bucket" "example" {
-  bucket = "example"
+  bucket = "oln-cicd-build"
 }
 
-resource "aws_s3_bucket_acl" "example" {
-  bucket = aws_s3_bucket.example.id
-  acl    = "private"
-}
+# resource "aws_s3_bucket_acl" "example" {
+#   bucket = aws_s3_bucket.example.id
+#   # acl    = "private"
+# }
 
 data "aws_iam_policy_document" "assume_role_oln" {
   statement {
@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "assume_role_oln" {
 }
 
 resource "aws_iam_role" "example" {
-  name               = "example"
+  name               = "oln-iamrole-cb"
   assume_role_policy = data.aws_iam_policy_document.assume_role_oln.json
 }
 
