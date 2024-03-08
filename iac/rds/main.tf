@@ -4,7 +4,7 @@ variable "private_subnet-1b_id" {}
 
 resource "aws_db_instance" "default" {
   allocated_storage           = 10
-  db_name                     = "postgresql"
+  db_name                     = "mydb"
   engine                      = "postgresql"
   engine_version              = "16.1-R2"
   instance_class              = "db.m5d.large"
@@ -29,6 +29,7 @@ resource "aws_rds_cluster" "postgresql" {
   final_snapshot_identifier = true
   skip_final_snapshot       = true
 }
+
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 2
   identifier         = "aurora-cluster-demo-${count.index}"
