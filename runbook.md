@@ -1,86 +1,53 @@
-Runbook for AWS Terraform
-Table of Contents
- Introduction
- Autoscaling for EC2
- Configure RDS as a Cluster
- Configure Database Backups
- Configure S3 Versioning
- Configure CloudWatch Metrics and Alerting
- Common Tasks
- Troubleshooting
- Introduction
-1 Accessing the Infrastructure
-1.1 Bastion Host Access
-2 Monitoring
-2.1 CloudWatch Metrics
-2.2 Logs
-3 Scaling
-3.1 Autoscaling
-4 Backup and Recovery
-4.1 RDS MySQL Backups
-5 Maintenance
-5.1 Software Updates
-5.2 Infrastructure Changes
+# Online Learning Platform Infrastructure Runbook
+    Table of Contents
+    Accessing the Infrastructure
+    Monitoring and Alerts
+    Database Operations
+    Backup and Restore
+    Scaling
+    Security
+    Troubleshooting
 1. Accessing the Infrastructure
-1.1 Bastion Host Access
-To access the infrastructure securely, follow these steps:
-Connect to the Bastion Host:
-Use an SSH client to connect to the Bastion Host:
-ssh -i <path-to-keyfile> ec2-user@<bastion-host-ip>
-Access Other Instances:
-From the Bastion Host, connect to other instances within the private subnets:
-ssh -i <path-to-keyfile> ec2-user@<private-instance-ip>
-2. Monitoring
-2.1 CloudWatch Metrics
-CloudWatch provides essential metrics for monitoring system health. Access the AWS Management Console and navigate to CloudWatch to view and analyze metrics related to EC2 instances, Load Balancer, and other resources.
-Access CloudWatch Metrics:
-Navigate to the AWS Management Console.
-Select CloudWatch.
-Choose Metrics in the CloudWatch dashboard.
-Explore and analyze metrics for different resources.
-2.2 Logs
-CloudWatch Logs store application and access logs. To access logs:
-Navigate to CloudWatch Logs:
-Navigate to the AWS Management Console.
-Select CloudWatch.
-Choose Logs in the CloudWatch dashboard.
-Select the log group associated with your application or resource.
-View and Troubleshoot Logs:
-Review logs for troubleshooting and monitoring purposes.
-Use insights gained from logs to address issues and optimize performance.
-3. Scaling
-3.1 Autoscaling
-Autoscaling is configured to scale instances based on network traffic. Monitor traffic patterns, and if necessary, adjust the autoscaling configuration.
-Access Autoscaling Groups:
-Navigate to the AWS Management Console.
-Select EC2.
-In the EC2 Dashboard, choose Auto Scaling Groups.
-Adjust Autoscaling Configuration:
-Update the desired capacity or adjust scaling policies based on observed traffic patterns.
-4. Backup and Recovery
-4.1 RDS MySQL Backups
-RDS MySQL is configured for automated backups every 12 hours with a retention period of 7 days. To restore from a backup:
-Navigate to RDS Console:
-Navigate to the AWS Management Console.
-Select RDS.
-Restore from Backup:
-Choose Databases in the RDS dashboard.
-Select the RDS instance.
-Go to the Actions dropdown and choose Restore to Point in Time.
-5. Maintenance
-5.1 Software Updates
-Keep the software and operating systems up-to-date to ensure security and performance. Follow these steps:
-Connect to Instances:
-Connect to instances using the Bastion Host.
-Update Packages:
-Update packages on EC2 instances:
-5.2 Infrastructure Changes
-When making changes to the infrastructure, use Terraform to apply updates:
-Navigate to Terraform Code Directory:
-Navigate to the Terraform code directory.
-Apply Changes:
-Run the following commands:
-create s3 bucket
-terraform init
-terraform plan
-terraform apply
+    Bastion Server
+    To access the infrastructure, connect to the Bastion server first using SSH:
+
+    bash
+    Copy code
+    ssh -i your_key.pem ec2-user@bastion_ip
+    From the Bastion server, you can then access other resources within the private network.
+
+2. Monitoring and Alerts
+    CloudWatch
+    View system and application logs in CloudWatch.
+    Set up alarms for important metrics like CPU usage, memory usage, and disk space.
+    Monitor RDS performance insights for database performance.
+3. Database Operations
+    RDS (PostgreSQL)
+    Use appropriate database clients to connect to the RDS instance.
+    Perform database queries, updates, and maintenance tasks as required.
+    Avoid direct access to the RDS instance from outside the VPC.
+4. Backup and Restore
+    Database Backup
+    RDS PostgreSQL is configured for weekly backups.
+    Backups are retained for 4 weeks.
+    To restore a database from backup, use the AWS Management Console or CLI.
+5. Scaling
+    Autoscaling
+    Autoscaling is configured based on CPU and memory usage.
+    Minimum of 1 instance and scales up to 2 instances.
+    Monitor scaling events and adjust scaling policies as necessary.
+6. Security
+    Security Groups
+    Ensure security groups are correctly configured to restrict access to necessary ports.
+    Review and update security group rules as required.
+    Network ACLs
+    Network ACLs are configured with custom rules for different subnets.
+    Review and update NACL rules as necessary.
+7. Troubleshooting
+    CloudTrail
+    Use CloudTrail to monitor and alert on unauthorized access attempts.
+    Investigate any suspicious activity reported by CloudTrail.
+    Log Analysis
+    Analyze CloudWatch logs for errors or issues.
+    Investigate and troubleshoot any application or system-related issues.
+    Check RDS performance insights for database performance issues.
