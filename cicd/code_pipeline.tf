@@ -66,7 +66,7 @@ resource "aws_codepipeline" "codepipeline" {
         Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
         OutputFileName = "CreateStackOutput.json"
         StackName      = "MyStack"
-        TemplatePath   = "build_output::buildspec.yml"
+        TemplatePath   = "build_output::buildspec.yaml"
       }
     }
   }
