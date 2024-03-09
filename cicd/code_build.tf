@@ -15,13 +15,19 @@ data "aws_iam_policy_document" "assume_role_oln" {
       type        = "Service"
       identifiers = ["codebuild.amazonaws.com"]
     }
+     principals {
+      type        = "Service"
+      identifiers = ["codepipeline.amazonaws.com"]
+    }
+
 
     actions = ["sts:AssumeRole"]
   }
+  
 }
 
 resource "aws_iam_role" "example" {
-  name               = "oln-iamrole-cb"
+  name               = "GezimPoly"
   assume_role_policy = data.aws_iam_policy_document.assume_role_oln.json
 }
 
@@ -61,6 +67,9 @@ data "aws_iam_policy_document" "example" {
     resources = [
       aws_s3_bucket.example.arn,
       "${aws_s3_bucket.example.arn}/*",
+      "arn:aws:s3:::oln-cicd-build",
+      "arn:aws:s3:::codepipeline-bucket/*",
+      "arn:aws:s3:::oln-cicd-pipeline/oln-pipeline/*",
     ]
   }
 }
@@ -71,7 +80,7 @@ resource "aws_iam_role_policy" "example" {
 }
 
 resource "aws_codebuild_project" "example" {
-  name          = "test-project"
+  name          = "Online-Learning-Platform"
   description   = "test_codebuild_project"
   build_timeout = 5
   service_role  = aws_iam_role.example.arn
@@ -91,7 +100,7 @@ resource "aws_codebuild_project" "example" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
 
-   
+
   }
 
   logs_config {
@@ -107,8 +116,10 @@ resource "aws_codebuild_project" "example" {
   }
 
   source {
-    type            = "GITHUB"
-    location        = "https://github.com/GezimPoly/Online-Learning-Platform"
+    type     = "GITHUB"
+    location = "https://github.com/GezimPoly/Online-Learning-Platform"
+
+    # location        = "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/Online-Learning-Platform"
     git_clone_depth = 1
 
     git_submodules_config {
@@ -167,7 +178,9 @@ resource "aws_codebuild_project" "project-with-cache" {
   }
 
   source {
-    type            = "GITHUB"
+    type = "GITHUB"
+    # location        = "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/Online-Learning-Platform"
+
     location        = "https://github.com/GezimPoly/Online-Learning-Platform"
     git_clone_depth = 1
   }
@@ -190,7 +203,7 @@ resource "aws_codebuild_project" "project-with-cache" {
 #     type            = "CODECOMMIT"
 #     location        = "https://github.com/GezimPoly/Online-Learning-Platform"
 #     git_clone_depth = 1
-    
+
 #   }
 #   artifacts {
 #     type = "NO_ARTIFACTS"

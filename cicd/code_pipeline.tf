@@ -23,9 +23,8 @@ resource "aws_codepipeline" "codepipeline" {
       provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["source_output"]
-
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.example.arn
+        ConnectionArn    = aws_codestarconnections_connection.Online-Learning-Platform.arn
         FullRepositoryId = "GezimPoly/Online-Learning-Platform"
         BranchName       = "main"
       }
@@ -45,7 +44,8 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = "oln"
+        ProjectName = "Online-Learning-Platform"
+        # TemplatePath   = "build_output::iac/buildspec.yml"
       }
     }
   }
@@ -66,14 +66,14 @@ resource "aws_codepipeline" "codepipeline" {
         Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
         OutputFileName = "CreateStackOutput.json"
         StackName      = "MyStack"
-        TemplatePath   = "build_output::buildspec.yaml"
+        TemplatePath   = "build_output::buildspec.yml"
       }
     }
   }
 }
 
-resource "aws_codestarconnections_connection" "example" {
-  name          = "example-connection"
+resource "aws_codestarconnections_connection" "Online-Learning-Platform" {
+  name          = "Online-Learning-Platform"
   provider_type = "GitHub"
 }
 
@@ -81,7 +81,9 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
   bucket = "oln-cicd-pipeline"
 }
 
+
 resource "aws_s3_bucket_public_access_block" "codepipeline_bucket_pab" {
+  
   bucket = aws_s3_bucket.codepipeline_bucket.id
 
   block_public_acls       = true
@@ -129,7 +131,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect    = "Allow"
     actions   = ["codestar-connections:UseConnection"]
-    resources = [aws_codestarconnections_connection.example.arn]
+    resources = [aws_codestarconnections_connection.Online-Learning-Platform.arn]
   }
 
   statement {
@@ -157,13 +159,16 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
 
 
 
+
+
+
 # resource "aws_codepipeline" "example" {
 #   name = "terraform-pipeline"
 
 #   role_arn = aws_iam_role.codepipeline_role.arn
 
 #   artifact_store {
-#     location = aws_s3_bucket.example_bucket.id
+#     location = aws_s3_bucket.codepipeline_bucket.id
 #     type     = "S3"
 #   }
 
