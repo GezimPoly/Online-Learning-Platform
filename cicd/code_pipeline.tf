@@ -45,6 +45,8 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = "Online-Learning-Platform"
+
+
         # TemplatePath   = "build_output::iac/buildspec.yml"
       }
     }
@@ -83,7 +85,7 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
 
 
 resource "aws_s3_bucket_public_access_block" "codepipeline_bucket_pab" {
-  
+
   bucket = aws_s3_bucket.codepipeline_bucket.id
 
   block_public_acls       = true
@@ -140,6 +142,10 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     actions = [
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild",
+      "codecommit:GetBranch",
+      "codecommit:GetCommit",
+      "codecommit:UploadArchive",
+      "codecommit:GetUploadArchiveStatus",
     ]
 
     resources = ["*"]

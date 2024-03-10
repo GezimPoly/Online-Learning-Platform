@@ -15,15 +15,12 @@ data "aws_iam_policy_document" "assume_role_oln" {
       type        = "Service"
       identifiers = ["codebuild.amazonaws.com"]
     }
-     principals {
-      type        = "Service"
-      identifiers = ["codepipeline.amazonaws.com"]
-    }
+   
 
 
     actions = ["sts:AssumeRole"]
   }
-  
+
 }
 
 resource "aws_iam_role" "example" {
