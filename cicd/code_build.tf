@@ -112,7 +112,7 @@ resource "aws_codebuild_project" "example" {
   source {
     type = "GITHUB"
     # location = "https://github.com/GezimPoly/Online-Learning-Platform/"
-    location = "https://github.com/GezimPoly/Online-Learning-Platform/tree/main/iac"
+    location = "https://github.com/GezimPoly/Online-Learning-Platform/"
 
     git_clone_depth = 1
 
