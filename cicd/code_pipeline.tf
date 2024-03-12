@@ -22,7 +22,7 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["source_output"]
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.Online-Learning-Platform.arn
-        FullRepositoryId = "GezimPoly/Online-Learning-Platform/tree/main"
+        FullRepositoryId = "GezimPoly/Online-Learning-Platform"
         BranchName       = "main"
       }
     }
