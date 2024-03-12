@@ -7,10 +7,7 @@ resource "aws_codepipeline" "codepipeline" {
     location = aws_s3_bucket.codepipeline_bucket.bucket
     type     = "S3"
 
-    # encryption_key {
-    #   id   = data.aws_kms_alias.s3kmskey.arn
-    #   type = "KMS"
-    # }
+   
   }
 
   stage {
@@ -52,26 +49,26 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  stage {
-    name = "Deploy"
+  # stage {
+  #   name = "Deploy"
 
-    action {
-      name            = "Deploy"
-      category        = "Deploy"
-      owner           = "AWS"
-      provider        = "CloudFormation"
-      input_artifacts = ["build_output"]
-      version         = "1"
+  #   action {
+  #     name            = "Deploy"
+  #     category        = "Deploy"
+  #     owner           = "AWS"
+  #     provider        = "CloudFormation"
+  #     input_artifacts = ["build_output"]
+  #     version         = "1"
 
-      configuration = {
-        ActionMode     = "REPLACE_ON_FAILURE"
-        Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
-        OutputFileName = "CreateStackOutput.json"
-        StackName      = "MyStack"
-        TemplatePath   = "build_output::buildspec.yaml"
-      }
-    }
-  }
+  #     configuration = {
+  #       ActionMode     = "REPLACE_ON_FAILURE"
+  #       Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
+  #       OutputFileName = "CreateStackOutput.json"
+  #       StackName      = "MyStack"
+  #       TemplatePath   = "build_output:: buildspec.yml"
+  #     }
+  #   }
+  # }
 }
 
 resource "aws_codestarconnections_connection" "Online-Learning-Platform" {

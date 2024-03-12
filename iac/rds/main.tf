@@ -2,18 +2,6 @@ variable "vpc_id" {}
 variable "private_subnet-1a_id" {}
 variable "private_subnet-1b_id" {}
 
-# resource "aws_db_instance" "default" {
-#   allocated_storage           = 10
-#   db_name                     = "mydb"
-#   engine                      = "postgresql"
-#   engine_version              = "16.2"
-#   instance_class              = "db.m5d.large"
-#   manage_master_user_password = true
-#   username                    = "foo"
-#   parameter_group_name        = "default.postgresql16"
-#   final_snapshot_identifier   = true
-#   skip_final_snapshot         = true
-# }
 
 
 resource "aws_rds_cluster" "postgresql" {
@@ -58,6 +46,11 @@ resource "aws_db_subnet_group" "default" {
     Name = "My DB subnet group"
   }
 }
+
+
+
+
+
 
 
 

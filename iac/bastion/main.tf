@@ -6,8 +6,7 @@ variable "aws_security_group_id" {}
 resource "aws_instance" "web_server" {
   ami           = "ami-0dfdff9941ebfbd48"
   instance_type = "t2.micro"
-  ///
-  # key_name      = "terraform-key"
+
   subnet_id     = var.public_subnet-1a_id
 
   vpc_security_group_ids = [

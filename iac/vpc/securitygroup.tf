@@ -6,13 +6,13 @@ resource "aws_security_group" "oln_security_group_rds" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["10.0.3.0/24", "10.0.4.0/24"] # Adjust as per your network requirements
+    cidr_blocks = ["10.0.3.0/24", "10.0.4.0/24"] 
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] # Allow outbound traffic to anywhere
+    cidr_blocks = ["0.0.0.0/0"] 
   }
 }
 
@@ -58,12 +58,12 @@ resource "aws_security_group" "oln_security_group_efs" {
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"] # Adjust as per your network requirements
+    cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24"] 
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] # Allow outbound traffic to anywhere
+    cidr_blocks = ["0.0.0.0/0"] 
   }
 }

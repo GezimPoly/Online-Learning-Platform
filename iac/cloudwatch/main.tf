@@ -5,10 +5,7 @@ variable "public_subnet-1b_id" {}
 data "aws_ami" "ubuntu" {
   most_recent = true
 
-  # filter {
-  #   name   = "name"
-  #   values = ["ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"]
-  # }
+
 
   owners = ["099720109477"] # Canonical
 }
@@ -16,8 +13,6 @@ data "aws_ami" "ubuntu" {
 resource "aws_launch_configuration" "as_conf" {
   image_id      = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  // me vet
-  # spot_price    = "0.001"
 
   lifecycle {
     create_before_destroy = true
@@ -37,6 +32,7 @@ resource "aws_autoscaling_group" "bar" {
   }
 
 }
+//- CloudWatch for system and application logs with 2 days retention.
 
 resource "aws_autoscaling_policy" "bat" {
   name                   = "autoscaling policy"

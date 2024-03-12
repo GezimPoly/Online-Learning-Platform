@@ -2,10 +2,7 @@ resource "aws_s3_bucket" "example" {
   bucket = "oln-cicd-build"
 }
 
-# resource "aws_s3_bucket_acl" "example" {
-#   bucket = aws_s3_bucket.example.id
-#   # acl    = "private"
-# }
+
 
 data "aws_iam_policy_document" "assume_role_oln" {
   statement {
@@ -15,7 +12,7 @@ data "aws_iam_policy_document" "assume_role_oln" {
       type        = "Service"
       identifiers = ["codebuild.amazonaws.com"]
     }
-   
+
 
 
     actions = ["sts:AssumeRole"]
@@ -113,10 +110,10 @@ resource "aws_codebuild_project" "example" {
   }
 
   source {
-    type     = "GITHUB"
-    location = "https://github.com/GezimPoly/Online-Learning-Platform"
+    type = "GITHUB"
+    # location = "https://github.com/GezimPoly/Online-Learning-Platform/"
+    location = "https://github.com/GezimPoly/Online-Learning-Platform/tree/main/iac"
 
-    # location        = "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/Online-Learning-Platform"
     git_clone_depth = 1
 
     git_submodules_config {
@@ -126,66 +123,50 @@ resource "aws_codebuild_project" "example" {
 
   source_version = "main"
 
-  # vpc_config {
-  #   vpc_id = aws_vpc.example.id
 
-  #   subnets = [
-  #     aws_subnet.example1.id,
-  #     aws_subnet.example2.id,
-  #   ]
-
-  #   security_group_ids = [
-  #     aws_security_group.example1.id,
-  #     aws_security_group.example2.id,
-  #   ]
-  # }
-
-  # tags = {
-  #   Environment = "Test"
-  # }
 }
 
-resource "aws_codebuild_project" "project-with-cache" {
-  name           = "test-project-cache"
-  description    = "test_codebuild_project_cache"
-  build_timeout  = 5
-  queued_timeout = 5
+# resource "aws_codebuild_project" "project-with-cache" {
+#   name           = "test-project-cache"
+#   description    = "test_codebuild_project_cache"
+#   build_timeout  = 5
+#   queued_timeout = 5
 
-  service_role = aws_iam_role.example.arn
+#   service_role = aws_iam_role.example.arn
 
-  artifacts {
-    type = "NO_ARTIFACTS"
-  }
+#   artifacts {
+#     type = "NO_ARTIFACTS"
+#   }
 
-  cache {
-    type  = "LOCAL"
-    modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
-  }
+#   cache {
+#     type  = "LOCAL"
+#     modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
+#   }
 
-  environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-    type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "CODEBUILD"
+#   environment {
+#     compute_type                = "BUILD_GENERAL1_SMALL"
+#     image                       = "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+#     type                        = "LINUX_CONTAINER"
+#     image_pull_credentials_type = "CODEBUILD"
 
-    environment_variable {
-      name  = "SOME_KEY1"
-      value = "SOME_VALUE1"
-    }
-  }
+#     environment_variable {
+#       name  = "SOME_KEY1"
+#       value = "SOME_VALUE1"
+#     }
+#   }
 
-  source {
-    type = "GITHUB"
-    # location        = "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/Online-Learning-Platform"
+#   source {
+#     type = "GITHUB"
+#     # location = "https://github.com/GezimPoly/Online-Learning-Platform/"
 
-    location        = "https://github.com/GezimPoly/Online-Learning-Platform"
-    git_clone_depth = 1
-  }
+#     location = "https://github.com/GezimPoly/Online-Learning-Platform/tree/main/iac"
+#     git_clone_depth = 1
+#   }
 
-  tags = {
-    Environment = "Test"
-  }
-}
+#   tags = {
+#     Environment = "Test"
+#   }
+# }
 
 
 # resource "aws_codebuild_project" "example" {
