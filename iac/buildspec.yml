@@ -1,17 +1,13 @@
 version: 0.2
 
 phases:
-  install:
-    # runtime-versions:
-    #   terraform: 4.0.0
+  pre_build:
     commands:
       - echo "Installing Terraform..."
       - curl -o terraform.zip https://releases.hashicorp.com/terraform/4.0.0/terraform_4.0.0_linux_amd64.zip
-      - unzip terraform.zip
-      
-      - terraform --version
-  pre_build:
-    commands:
+      - unzip terraform.zip -d /usr/local/bin 
+      - cd iac
+      - terraform --version 
       - echo "Executing Terraform init..."
       - terraform init
   build:
