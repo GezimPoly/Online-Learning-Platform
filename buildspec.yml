@@ -2,8 +2,8 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      terraform: 4.0.0
+    # runtime-versions:
+    #   terraform: 4.0.0
     commands:
       - echo "Installing Terraform..."
       - curl -o terraform.zip https://releases.hashicorp.com/terraform/4.0.0/terraform_4.0.0_linux_amd64.zip
