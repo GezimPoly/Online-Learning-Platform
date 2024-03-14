@@ -90,7 +90,7 @@ resource "aws_network_acl_rule" "nacl1a" {
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
-  cidr_block     = "10.3.0.0/24"
+  cidr_block     = "10.0.3.0/24"
   from_port      = 5432
   to_port        = 5432
 }
@@ -100,7 +100,7 @@ resource "aws_network_acl_rule" "nacl1b" {
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
-  cidr_block     = "10.4.0.0/24"
+  cidr_block     = "10.0.4.0/24"
   from_port      = 5432
   to_port        = 5432
 }

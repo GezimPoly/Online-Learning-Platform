@@ -7,8 +7,8 @@ phases:
     commands:
       - echo "Installing Terraform..."
       - curl -o terraform.zip https://releases.hashicorp.com/terraform/4.0.0/terraform_4.0.0_linux_amd64.zip
-      # - unzip terraform.zip
-      # - mv terraform /usr/local/bin/
+      - unzip terraform.zip
+      
       - terraform --version
   pre_build:
     commands:
@@ -17,8 +17,8 @@ phases:
   build:
     commands:
       - echo "Executing Terraform plan..."
-      - terraform plan -out=tfplan
+      - terraform plan --auto-approve
   post_build:
     commands:
       - echo "Executing Terraform apply..."
-      - terraform apply -auto-approve tfplan
+      - terraform apply --auto-approve 
