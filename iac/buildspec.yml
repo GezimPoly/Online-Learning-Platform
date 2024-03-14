@@ -3,7 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - npm install -g yam-lint
+      # - npm install -g yam-lint
       - sudo yum update -y
       - echo "Installing Terraform..."
       - sudo yum install -y unzip
