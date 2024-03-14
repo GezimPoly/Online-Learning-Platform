@@ -4,6 +4,7 @@ phases:
   pre_build:
     commands:
       - echo "Installing Terraform..."
+      - sudo yum install -y unzip
       - curl -o terraform.zip https://releases.hashicorp.com/terraform/4.0.0/terraform_4.0.0_linux_amd64.zip
       - unzip terraform.zip -d /usr/local/bin 
       - cd iac
