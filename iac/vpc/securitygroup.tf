@@ -11,7 +11,7 @@ resource "aws_security_group" "oln_security_group_rds" {
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "-1" // represents all protocols    per me dal ne te gjitha portet
     cidr_blocks = ["0.0.0.0/0"] 
   }
 }

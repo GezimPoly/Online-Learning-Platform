@@ -12,7 +12,8 @@ phases:
       - cd iac
       - terraform --version 
       - echo "Executing Terraform init..."
-      - terraform init
+      - terraform init -reconfigure
+      
   build:
     commands:
       - echo "Executing Terraform plan..."

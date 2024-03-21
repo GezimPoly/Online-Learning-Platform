@@ -2,18 +2,8 @@ variable "public_subnet-1a_id" {}
 variable "public_subnet-1b_id" {}
 
 
-# data "aws_ami" "ubuntu" {
-#   most_recent = true
-
-
-
-#   owners = ["099720109477"] # Canonical
-# }
-
 resource "aws_launch_configuration" "as_conf" {
     image_id      = "ami-0dfdff9941ebfbd48"
-
-  # image_id      = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
   lifecycle {
@@ -33,7 +23,6 @@ resource "aws_autoscaling_group" "bar" {
     create_before_destroy = true
   }
 }
-//- CloudWatch for system and application logs with 2 days retention.
 
 resource "aws_autoscaling_policy" "bat" {
   name                   = "autoscaling policy"
@@ -42,6 +31,7 @@ resource "aws_autoscaling_policy" "bat" {
   cooldown               = 300
   autoscaling_group_name = aws_autoscaling_group.bar.name
 }
+//- CloudWatch for system and application logs with 2 days retention.
 
 resource "aws_cloudwatch_metric_alarm" "bat" {
   alarm_name          = "cloudwatch-alarm"

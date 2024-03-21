@@ -1,7 +1,8 @@
-
 resource "aws_codepipeline" "codepipeline" {
   name     = "oln-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
+
+  
 
   artifact_store {
     location = aws_s3_bucket.codepipeline_bucket.bucket
@@ -49,26 +50,26 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  # stage {
-  #   name = "Deploy"
+  stage {
+    name = "Deploy"
 
-  #   action {
-  #     name            = "Deploy"
-  #     category        = "Deploy"
-  #     owner           = "AWS"
-  #     provider        = "CloudFormation"
-  #     input_artifacts = ["build_output"]
-  #     version         = "1"
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CloudFormation"
+      input_artifacts = ["build_output"]
+      version         = "1"
 
-  #     configuration = {
-  #       ActionMode     = "REPLACE_ON_FAILURE"
-  #       Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
-  #       OutputFileName = "CreateStackOutput.json"
-  #       StackName      = "MyStack"
-  #       TemplatePath   = "build_output:: buildspec.yml"
-  #     }
-  #   }
-  # }
+      configuration = {
+        ActionMode     = "REPLACE_ON_FAILURE"
+        Capabilities   = "CAPABILITY_AUTO_EXPAND,CAPABILITY_IAM"
+        OutputFileName = "CreateStackOutput.json"
+        StackName      = "MyStack"
+        TemplatePath   = "build_output:: buildspec.yml"
+      }
+    }
+  }
 }
 
 resource "aws_codestarconnections_connection" "Online-Learning-Platform" {

@@ -31,9 +31,6 @@ module "vpc" {
   source = "./vpc"
 
 }
-module "iam" {
-  source = "./iam"
-}
 
 module "s3" {
   source = "./s3"
@@ -46,15 +43,7 @@ module "efs" {
   source = "./efs"
 
 }
-# module "alb" {
-#   source = "./alb"
 
-#   vpc_id                = module.vpc.vpc_id
-#   public_subnet-1a_id   = module.vpc.public_subnet-1a_id
-#   public_subnet-1b_id   = module.vpc.public_subnet-1b_id
-#   aws_security_group_id = module.vpc.aws_security_group_id
-
-# }
 module "rds" {
   source = "./rds"
 

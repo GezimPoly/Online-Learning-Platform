@@ -1,5 +1,7 @@
 
-
+//designed to provide scalable, elastic, concurrent with some restrictions,
+// and encrypted file storage for use 
+//with both AWS cloud services and on-premises resources
 //- EFS (for shared resources among students)
 
 resource "aws_efs_access_point" "test" {

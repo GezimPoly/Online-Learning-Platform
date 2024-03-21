@@ -3,17 +3,16 @@ variable "private_subnet-1a_id" {}
 variable "private_subnet-1b_id" {}
 
 
-
 resource "aws_rds_cluster" "postgresql" {
-  cluster_identifier = "aurora-cluster-oln"
-  engine             = "aurora-postgresql"
-  engine_version     = "15"
-  availability_zones = ["eu-west-3a", "eu-west-3b"]
-  database_name      = "mydb"
-  master_username    = "foo"
-  master_password    = "barbarbar"
+  cluster_identifier        = "aurora-cluster-oln"
+  engine                    = "aurora-postgresql"
+  engine_version            = "15"
+  availability_zones        = ["eu-west-3a", "eu-west-3b"]
+  database_name             = "mydb"
+  master_username           = "foo"
+  master_password           = "barbarbar"
   //- RDS Postgresql with weekly backups, retaining for 4 weeks.
-  backup_retention_period   = 4*7
+  backup_retention_period   = 4 * 7
   preferred_backup_window   = "07:00-09:00"
   final_snapshot_identifier = "aurora-final-snapshot"
   skip_final_snapshot       = false
@@ -40,7 +39,6 @@ resource "aws_db_cluster_snapshot" "example" {
 resource "aws_db_subnet_group" "default" {
   name       = "main"
   subnet_ids = [var.private_subnet-1a_id, var.private_subnet-1b_id]
-  #  subnet_ids = [aws_subnet.frontend.id, aws_subnet.backend.id]
 
   tags = {
     Name = "My DB subnet group"
